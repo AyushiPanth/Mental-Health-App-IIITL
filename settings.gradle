@@ -1,0 +1,2 @@
+rootProject.name = "MentalHealthAppIIITL"
+include ':app'
