@@ -1,4 +1,4 @@
-package com.example.mentalhealthappiiitl
+package com.axios.mentalhealthappiiitl
 
 import org.junit.Test
 

@@ -1,9 +1,9 @@
-package com.example.mentalhealthappiiitl
+package com.axios.mentalhealthappiiitl
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
-import com.example.mentalhealthappiiitl.databinding.ActivityMainBinding
+import com.axios.mentalhealthappiiitl.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
