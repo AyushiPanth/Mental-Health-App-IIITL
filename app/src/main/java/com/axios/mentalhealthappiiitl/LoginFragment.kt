@@ -1,4 +1,4 @@
-package com.example.mentalhealthappiiitl
+package com.axios.mentalhealthappiiitl
 
 import android.app.Activity
 import android.content.Intent
@@ -7,9 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.example.mentalhealthappiiitl.databinding.FragmentLoginBinding
+import com.axios.mentalhealthappiiitl.databinding.FragmentLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
