@@ -5,25 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import com.example.mentalhealthappiiitl.databinding.FragmentLoginBinding
 
 
-class LoginFragment : Fragment() {
-
+class second : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         // Inflate the layout for this fragment
-        val v = inflater.inflate(
-            R.layout.fragment_login,
-            container,
-            false
-        )
-
-        return v
+        return inflater.inflate(R.layout.fragment_second, container, false)
     }
 
 

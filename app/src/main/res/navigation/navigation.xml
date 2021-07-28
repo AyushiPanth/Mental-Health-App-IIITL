@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/splash_screen">
 
+    <fragment
+        android:id="@+id/splash_screen"
+        android:name="com.example.mentalhealthappiiitl.splash_screen"
+        android:label="fragment_splash_screen"
+        tools:layout="@layout/fragment_splash_screen" >
+        <action
+            android:id="@+id/action_splash_screen_to_view_pager"
+            app:destination="@id/view_pager" />
+    </fragment>
+    <fragment
+        android:id="@+id/view_pager"
+        android:name="com.example.mentalhealthappiiitl.view_pager"
+        android:label="fragment_view_pager"
+        tools:layout="@layout/fragment_view_pager" >
+        <action
+            android:id="@+id/action_view_pager_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.mentalhealthappiiitl.LoginFragment"
