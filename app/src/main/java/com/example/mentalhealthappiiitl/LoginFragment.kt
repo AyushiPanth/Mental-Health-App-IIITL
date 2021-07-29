@@ -15,13 +15,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 
 
 class LoginFragment : Fragment() {
 
-    lateinit var binding:FragmentLoginBinding
+    lateinit var binding: FragmentLoginBinding
     lateinit private var mGoogleSignInClient: GoogleSignInClient
     private var RC_SIGN_IN = 456
     override fun onCreateView(
@@ -52,13 +53,21 @@ class LoginFragment : Fragment() {
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
         var account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(getContext());
-        updateUI(account);
+        if (account?.email.toString()
+                .endsWith("iiitl.ac.in")
+        )
+            updateUI(account)
+        else
+            showSnackBar("sign in not succesful login with clg id", activity)
     }
 
     override fun onResume() {
         super.onResume()
         binding.loginButton.setOnClickListener {
             signIn()
+        }
+        binding.logoutButton.setOnClickListener {
+            signOut()
         }
     }
 
@@ -84,28 +93,44 @@ class LoginFragment : Fragment() {
             var account: GoogleSignInAccount = completedTask.getResult(ApiException::class.java);
 
             // Signed in successfully, show authenticated UI.
-            updateUI(account)
+            if (account.email.toString().endsWith("iiitl.ac.in"))
+                updateUI(account)
+            else
+                showSnackBar("sign in not succesful login with clg id", activity)
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w("TAG", "signInResult:failed code=" + e.getStatusCode()+ "\t" +e.stackTrace.toString() +"\t"+ e.status.toString()+"\t"+e.localizedMessage.toString())
+            Log.w(
+                "TAG",
+                "signInResult:failed code=" + e.getStatusCode() + "\t" + e.stackTrace.toString() + "\t" + e.status.toString() + "\t" + e.localizedMessage.toString()
+            )
             updateUI(null)
         }
     }
 
-    fun updateUI(account: GoogleSignInAccount?) {
+    private fun updateUI(account: GoogleSignInAccount?) {
         if (account == null)
             showSnackBar("Error Please Sign In Again", activity)
         else
-            showSnackBar("Succesful login using your google account "+account.displayName,activity)
+            showSnackBar(
+                "Succesful login using your google account " + account.displayName,
+                activity
+            )
     }
 
-    fun showSnackBar(message: String?, activity: Activity?) {
+    private fun showSnackBar(message: String?, activity: Activity?) {
         if (null != activity && null != message) {
             Snackbar.make(
                 activity.findViewById(android.R.id.content),
                 message, Snackbar.LENGTH_LONG
             ).show()
         }
+    }
+
+    private fun signOut() {
+        mGoogleSignInClient.signOut().addOnCompleteListener(OnCompleteListener {
+            showSnackBar("Succesfully signed out", activity)
+        })
+
     }
 }

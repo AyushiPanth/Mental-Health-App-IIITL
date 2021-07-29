@@ -12,12 +12,12 @@
 
 
         <Button
-            android:id="@+id/register_button"
+            android:id="@+id/logout_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@color/DarkSalmon"
-            android:text="@string/register"
+            android:text="@string/logout"
             android:textColor="#fff"
             app:layout_constraintBottom_toTopOf="@+id/login_button"
             app:layout_constraintEnd_toEndOf="parent"

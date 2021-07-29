@@ -2,4 +2,5 @@
     <string name="app_name">Mental HealthApp IIITL</string>
     <string name="register">Register</string>
     <string name="login">Login</string>
+    <string name="logout">logout</string>
 </resources>
