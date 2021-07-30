@@ -18,25 +18,25 @@
         android:layout_width="220dp"
         android:layout_height="70dp"
         android:layout_marginBottom="80dp"
-        app:cornerRadius="30dp"
-        android:text="Get Started"
-        android:textAlignment="textStart"
         android:backgroundTint="@color/white"
+        android:drawableEnd="@drawable/next"
+        android:text="@string/get_started"
+        android:textAlignment="textStart"
         android:textColor="#2888A9"
-        android:drawableRight="@drawable/next"
-        android:textSize="20dp"
+        android:textSize="20sp"
+        app:cornerRadius="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/str1"
+        android:id="@+id/str5"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
         android:gravity="center"
-        android:text="Your Mental Health Matters"
+        android:text="@string/string5"
         android:textColor="@color/white"
         android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -45,16 +45,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/str2"
+        android:id="@+id/str6"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Feel better and find the help you need right here"
-        android:textColor="#299C92"
-        android:textSize="25dp"
+        android:text="@string/string6"
         android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@+id/str1"
+        android:textColor="#299C92"
+        android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/str5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

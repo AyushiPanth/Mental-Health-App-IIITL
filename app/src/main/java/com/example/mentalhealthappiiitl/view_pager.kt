@@ -6,19 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
+import com.example.mentalhealthappiiitl.databinding.ActivityMainBinding
+import com.example.mentalhealthappiiitl.databinding.FragmentViewPagerBinding
 import me.relex.circleindicator.CircleIndicator3
 
 class view_pager : Fragment() {
 
-
+     lateinit var binding: FragmentViewPagerBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        val v= inflater.inflate(R.layout.fragment_view_pager, container, false)
-        val viewpager:ViewPager2 =v.findViewById(R.id.view_pager)
-        val indicator:CircleIndicator3=v.findViewById(R.id.circle)
+        binding= FragmentViewPagerBinding.inflate(inflater, container, false)
+
 
         val fragmentlist= arrayListOf(
             first(),
@@ -31,11 +32,11 @@ class view_pager : Fragment() {
             requireActivity().supportFragmentManager,
             lifecycle
         )
-        viewpager.adapter=myadapter
-        indicator.setViewPager(viewpager)
+        binding.viewPager.adapter=myadapter
+        binding.circle.setViewPager(binding.viewPager)
 
 
-        return v
+        return binding.root
     }
 
 
