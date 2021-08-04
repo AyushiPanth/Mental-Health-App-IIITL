@@ -8,18 +8,18 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.fragment.findNavController
 import com.example.mentalhealthappiiitl.databinding.FragmentLoginBinding
-import com.example.mentalhealthappiiitl.databinding.FragmentThirdBinding
+import com.example.mentalhealthappiiitl.databinding.FragmentLandingScreenThirdBinding
 import com.google.android.material.button.MaterialButton
 
 
-class third : Fragment() {
-    lateinit var binding: FragmentThirdBinding
+class landing_screen_third : Fragment() {
+    lateinit var binding: FragmentLandingScreenThirdBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentThirdBinding.inflate(inflater, container, false)
+        binding = FragmentLandingScreenThirdBinding.inflate(inflater, container, false)
         binding.btn.setOnClickListener {
             findNavController().navigate(R.id.action_view_pager_to_loginFragment)
         }

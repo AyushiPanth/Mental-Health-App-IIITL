@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 
 
-class first : Fragment() {
+class landing_screen_first : Fragment() {
 
 
     override fun onCreateView(
@@ -15,7 +15,7 @@ class first : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_first, container, false)
+        return inflater.inflate(R.layout.fragment_landing_screen_first, container, false)
     }
 
 

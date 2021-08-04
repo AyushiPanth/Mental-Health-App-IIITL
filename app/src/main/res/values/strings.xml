@@ -2,14 +2,12 @@
     <string name="app_name">Mental HealthApp IIITL</string>
     <string name="register">Register</string>
     <string name="login">Login</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="logout">logout</string>
-    <string name="string1">Anonymous Chat</string>
-    <string name="string2">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod temper</string>
-    <string name="string3">Relax Yourself</string>
-    <string name="string4">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod temper</string>
-    <string name="string5">Your Mental Health Matters</string>
-    <string name="string6">Feel better and find the help you need right here</string>
+    <string name="anon_chat">Anonymous Chat</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod temper</string>
+    <string name="relax">Relax Yourself</string>
+    <string name="mental_matters">Your Mental Health Matters</string>
+    <string name="feel_better">Feel better and find the help you need right here</string>
     <string name="get_started">Get Started</string>
 </resources>
