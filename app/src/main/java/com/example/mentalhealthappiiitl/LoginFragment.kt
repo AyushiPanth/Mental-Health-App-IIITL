@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.mentalhealthappiiitl.databinding.FragmentLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -18,13 +17,17 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 
 
 class LoginFragment : Fragment() {
-
     lateinit var binding: FragmentLoginBinding
-    lateinit private var mGoogleSignInClient: GoogleSignInClient
+    lateinit private var googleSignInClient: GoogleSignInClient
     private var RC_SIGN_IN = 456
+    lateinit var auth: FirebaseAuth
+    val TAG = "TAG"
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,15 +39,16 @@ class LoginFragment : Fragment() {
             container,
             false
         )*/
+        auth = FirebaseAuth.getInstance()
         binding = FragmentLoginBinding.inflate(inflater, container, false)
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        val gso: GoogleSignInOptions =
-            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build()
-        // Build a GoogleSignInClient with the options specified by gso.
-        mGoogleSignInClient = GoogleSignIn.getClient(getContext(), gso);
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        googleSignInClient = GoogleSignIn.getClient(getContext(), gso)
         return binding.root
     }
 
@@ -52,7 +56,8 @@ class LoginFragment : Fragment() {
         super.onStart()
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
-        var account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(getContext());
+//        var account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(getContext());
+        var account = auth.currentUser
         if (account?.email.toString()
                 .endsWith("iiitl.ac.in")
         )
@@ -71,6 +76,75 @@ class LoginFragment : Fragment() {
         }
     }
 
+    private fun signIn() {
+        val signInIntent = googleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                val account = task.getResult(ApiException::class.java)!!
+                Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
+                firebaseAuthWithGoogle(account.idToken!!)
+            } catch (e: ApiException) {
+                // Google Sign In failed, update UI appropriately
+                Log.w(TAG, "Google sign in failed", e)
+            }
+        }
+    }
+
+    private fun firebaseAuthWithGoogle(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "signInWithCredential:success")
+                    val user = auth.currentUser
+                    showSnackBar("SignIn with google is successful " + auth.currentUser?.displayName, activity)
+                    updateUI(user)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "signInWithCredential:failure", task.exception)
+                    showSnackBar("SignIn not successful ",activity)
+                    updateUI(null)
+                }
+            }
+    }
+
+
+    private fun showSnackBar(message: String?, activity: Activity?) {
+        if (null != activity && null != message) {
+            Snackbar.make(
+                activity.findViewById(android.R.id.content),
+                message, Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    private fun updateUI(account: FirebaseUser?) {
+        if (account == null)
+            showSnackBar("Error Please Sign In Again", activity)
+        else
+            showSnackBar(
+                "Succesful login using your google account " + account.displayName,
+                activity
+            )
+    }
+
+    private fun signOut() {
+        googleSignInClient.signOut().addOnCompleteListener(OnCompleteListener {
+            showSnackBar("Succesfully signed out", activity)
+        })
+
+    }
+    /*
     private fun signIn() {
         var signInIntent: Intent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -108,7 +182,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun updateUI(account: GoogleSignInAccount?) {
+    private fun updateUI(account: FirebaseUser?) {
         if (account == null)
             showSnackBar("Error Please Sign In Again", activity)
         else
@@ -118,19 +192,11 @@ class LoginFragment : Fragment() {
             )
     }
 
-    private fun showSnackBar(message: String?, activity: Activity?) {
-        if (null != activity && null != message) {
-            Snackbar.make(
-                activity.findViewById(android.R.id.content),
-                message, Snackbar.LENGTH_LONG
-            ).show()
-        }
-    }
-
     private fun signOut() {
         mGoogleSignInClient.signOut().addOnCompleteListener(OnCompleteListener {
             showSnackBar("Succesfully signed out", activity)
         })
 
     }
+    */
 }
