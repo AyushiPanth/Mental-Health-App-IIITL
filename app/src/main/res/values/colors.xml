@@ -9,4 +9,6 @@
     <color name="DarkSalmon">#E9967A</color>
     <color name="Corn_silk">#FFF8DC</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="BgBlue">#1C4670</color>
+    <color name="LandingGreen">#23f9b6</color>
 </resources>
