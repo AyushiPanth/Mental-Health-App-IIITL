@@ -95,8 +95,11 @@ class LoginFragment : Fragment() {
             // Signed in successfully, show authenticated UI.
             if (account.email.toString().endsWith("iiitl.ac.in"))
                 updateUI(account)
-            else
-                showSnackBar("sign in not succesful login with clg id", activity)
+            else {
+                mGoogleSignInClient.signOut().addOnCompleteListener {
+                    showSnackBar("sign in not succesful login with clg id", activity)
+                }
+            }
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
