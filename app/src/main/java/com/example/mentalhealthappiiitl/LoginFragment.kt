@@ -90,8 +90,16 @@ class LoginFragment : Fragment() {
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)!!
+                if (account.email.toString().endsWith("iiit.ac.in"))
+                    firebaseAuthWithGoogle(account.idToken!!)
+                else {
+
+                    googleSignInClient.signOut().addOnCompleteListener {
+                        showSnackBar("Sign in with College account", activity)
+                    }
+                }
                 Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
-                firebaseAuthWithGoogle(account.idToken!!)
+
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e)
@@ -107,12 +115,21 @@ class LoginFragment : Fragment() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
-                    showSnackBar("SignIn with google is successful " + auth.currentUser?.displayName, activity)
-                    updateUI(user)
+                    if (user?.email.toString().endsWith("iiitl.ac.in")) {
+                        showSnackBar(
+                            "SignIn with google is successful " + auth.currentUser?.displayName,
+                            activity
+                        )
+                        updateUI(user)
+                    } else
+
+                        googleSignInClient.signOut().addOnCompleteListener {
+                            showSnackBar("Sign in with College account", activity)
+                        }
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    showSnackBar("SignIn not successful ",activity)
+                    showSnackBar("SignIn not successful ", activity)
                     updateUI(null)
                 }
             }
