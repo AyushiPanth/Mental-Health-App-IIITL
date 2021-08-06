@@ -90,14 +90,14 @@ class LoginFragment : Fragment() {
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)!!
-                if (account.email.toString().endsWith("iiit.ac.in"))
+//                if (account.email.toString().endsWith("iiit.ac.in"))
                     firebaseAuthWithGoogle(account.idToken!!)
-                else {
-
-                    googleSignInClient.signOut().addOnCompleteListener {
-                        showSnackBar("Sign in with College account", activity)
-                    }
-                }
+//                else {
+//
+//                    googleSignInClient.signOut().addOnCompleteListener {
+//                        showSnackBar("Sign in with College account", activity)
+//                    }
+//                }
                 Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
 
             } catch (e: ApiException) {
