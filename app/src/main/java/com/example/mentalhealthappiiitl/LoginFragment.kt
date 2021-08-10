@@ -7,12 +7,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.size
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.mentalhealthappiiitl.databinding.FragmentLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
@@ -41,6 +44,7 @@ class LoginFragment : Fragment() {
         )*/
         auth = FirebaseAuth.getInstance()
         binding = FragmentLoginBinding.inflate(inflater, container, false)
+        binding.loginButton.setSize(SignInButton.SIZE_STANDARD)
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -49,32 +53,37 @@ class LoginFragment : Fragment() {
             .build()
 
         googleSignInClient = GoogleSignIn.getClient(getContext(), gso)
+        binding.loginButton.setOnClickListener {
+            signIn()
+            googleSignInClient.signOut()
+        }
+
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
-        // Check for existing Google Sign In account, if the user is already signed in
-        // the GoogleSignInAccount will be non-null.
+//    override fun onStart() {
+//        super.onStart()
+    // Check for existing Google Sign In account, if the user is already signed in
+    // the GoogleSignInAccount will be non-null.
 //        var account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(getContext());
-        var account = auth.currentUser
-        if (account?.email.toString()
-                .endsWith("iiitl.ac.in")
-        )
-            updateUI(account)
-        else
-            showSnackBar("sign in not succesful login with clg id", activity)
-    }
+//        var account = auth.currentUser
+//        if (account?.email.toString()
+//                .endsWith("iiitl.ac.in")
+//        )
+//            updateUI(account)
+//        else
+//            showSnackBar("sign in not succesful login with clg id", activity)
+    //}
 
-    override fun onResume() {
-        super.onResume()
-        binding.loginButton.setOnClickListener {
-            signIn()
-        }
-        binding.logoutButton.setOnClickListener {
-            signOut()
-        }
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        binding.loginButton.setOnClickListener {
+//            signIn()
+//        }
+//        binding.logoutButton.setOnClickListener {
+//            signOut()
+//        }
+//    }
 
     private fun signIn() {
         val signInIntent = googleSignInClient.signInIntent
@@ -91,7 +100,7 @@ class LoginFragment : Fragment() {
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)!!
 //                if (account.email.toString().endsWith("iiit.ac.in"))
-                    firebaseAuthWithGoogle(account.idToken!!)
+                firebaseAuthWithGoogle(account.idToken!!)
 //                else {
 //
 //                    googleSignInClient.signOut().addOnCompleteListener {
@@ -120,6 +129,7 @@ class LoginFragment : Fragment() {
                             "SignIn with google is successful " + auth.currentUser?.displayName,
                             activity
                         )
+                        findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
                         updateUI(user)
                     } else
 
@@ -155,12 +165,12 @@ class LoginFragment : Fragment() {
             )
     }
 
-    private fun signOut() {
-        googleSignInClient.signOut().addOnCompleteListener(OnCompleteListener {
-            showSnackBar("Succesfully signed out", activity)
-        })
-
-    }
+//    private fun signOut() {
+//        googleSignInClient.signOut().addOnCompleteListener(OnCompleteListener {
+//            showSnackBar("Succesfully signed out", activity)
+//        })
+//
+//    }
     /*
     private fun signIn() {
         var signInIntent: Intent = mGoogleSignInClient.getSignInIntent();
