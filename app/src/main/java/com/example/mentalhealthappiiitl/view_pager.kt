@@ -9,27 +9,27 @@ import com.example.mentalhealthappiiitl.databinding.FragmentViewPagerBinding
 
 class view_pager : Fragment() {
 
-     lateinit var binding: FragmentViewPagerBinding
+    lateinit var binding: FragmentViewPagerBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding= FragmentViewPagerBinding.inflate(inflater, container, false)
+        binding = FragmentViewPagerBinding.inflate(inflater, container, false)
 
 
-        val fragmentlist= arrayListOf(
+        val fragmentlist = arrayListOf(
             landing_screen_first(),
             landing_screen_second(),
             landing_screen_third()
 
         )
-        val myadapter=viewpageradapter(
+        val myadapter = viewpageradapter(
             fragmentlist,
             requireActivity().supportFragmentManager,
             lifecycle
         )
-        binding.viewPager.adapter=myadapter
+        binding.viewPager.adapter = myadapter
         binding.circle.setViewPager(binding.viewPager)
 
 
